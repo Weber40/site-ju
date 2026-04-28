@@ -9,7 +9,9 @@ import Footer from './components/Footer';
 import Bio from './pages/Bio';
 import HotTopics from './pages/HotTopics';
 import HotTopicsPreview from './components/HotTopicsPreview';
-
+import Login from './pages/Login';
+import Admin from './pages/Admin';
+import CreateTopic from './pages/CreateTopic';
 
 // Este componente envolve todas as páginas e fornece a Navbar
 function Layout() {
@@ -62,6 +64,13 @@ const router = createBrowserRouter([
       { path: "/hot-topics",
          element: <HotTopics /> 
       },
+      {
+        path: "/login",
+        element: <Login />
+      },
+      { path: "/admin", element: <div className="py-20 text-center">Painel de Administração 🚧</div> },
+      { path: "/admin", element: <Admin /> },
+{ path: "/admin/novo-topico", element: <CreateTopic /> },
     ],
   },
 ]);
