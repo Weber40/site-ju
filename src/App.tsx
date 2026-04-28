@@ -1,29 +1,45 @@
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import Hero from './components/Hero';
 import RecipeGrid from './components/RecipeGrid';
 import Services from './pages/Services';
+import Contact from './pages/Contact';
+import Footer from './components/Footer'; 
+import Bio from './pages/Bio';
+import HotTopics from './pages/HotTopics';
+import HotTopicsPreview from './components/HotTopicsPreview';
 
-// Componente de Layout para manter a Navbar fixa em todas as páginas
-function RootLayout() {
+
+// Este componente envolve todas as páginas e fornece a Navbar
+function Layout() {
   return (
-    <>
+    <div className="min-h-screen bg-brand-sand">
       <Navbar />
-      <Outlet />
-    </>
+      <main className="font-serif bg-brand-sand/40 min-h-screen"> 
+        <Outlet />
+        <section className="bg-brand-sage/20 py-20">
+        <h1 className="text-brand-olive font-serif">...</h1>
+      </section>
+      </main>
+      <Footer /> {/* Adiciona aqui */}
+    </div>
   );
 }
 
+
+// Configuração das Rotas
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: <Layout />, // O Layout decide onde a Navbar aparece
     children: [
       {
         path: "/",
         element: (
           <>
             <Hero />
+            <HotTopicsPreview />
             <RecipeGrid />
           </>
         ),
@@ -38,11 +54,18 @@ const router = createBrowserRouter([
       },
       {
         path: "/contactos",
-        element: <div className="py-20 text-center font-serif text-2xl">Página de Contactos em Construção 🚧</div>,
+        element: <Contact />,
+      },
+      { path: "/biografia",
+         element: <Bio /> 
+      },
+      { path: "/hot-topics",
+         element: <HotTopics /> 
       },
     ],
   },
 ]);
+
 
 export default function App() {
   return <RouterProvider router={router} />;

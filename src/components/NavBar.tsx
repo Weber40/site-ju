@@ -6,19 +6,20 @@ export default function Navbar() {
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo / Nome */}
         <Link to="/" className="text-2xl font-serif font-bold text-brand-dark">
-          Ju Nutrição
+          Sabores&Saberes
         </Link>
 
         {/* Links */}
-        <div className="hidden md:flex gap-8 font-medium text-zinc-600">
+        <div className="hidden md:flex gap-8 font-serif font-medium text-zinc-600">
           <Link to="/" className="hover:text-brand-medium transition-colors">Início</Link>
+          <Link to="/hot-topics" className="hover:text-brand-medium transition-colors">Hot Topics</Link>
           <Link to="/receitas" className="hover:text-brand-medium transition-colors">Receitas</Link>
           <Link to="/servicos" className="hover:text-brand-medium transition-colors">Serviços</Link>
           <Link to="/contactos" className="hover:text-brand-medium transition-colors">Contactos</Link>
         </div>
 
         {/* Botão de Ação */}
-        <button className="bg-brand-dark text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-brand-medium transition-all">
+        <button className="bg-brand-dark text-white px-5 py-2 rounded-full text-sm font-serif font-bold hover:bg-brand-medium transition-all">
           Marcar Consulta
         </button>
       </div>

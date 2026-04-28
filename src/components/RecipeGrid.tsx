@@ -25,7 +25,7 @@ export default function RecipeGrid() {
         <h2 className="text-4xl font-serif font-bold text-zinc-800 mb-4">Receitas da Ju</h2>
         <p className="text-zinc-500 mb-10 italic">Comida real para pessoas reais</p>
 
-        {/* Filtros Estilo Xica */}
+      
         <div className="flex flex-wrap justify-center gap-4 mb-16">
           {CATEGORIES.map(cat => (
             <button

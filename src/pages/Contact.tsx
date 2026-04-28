@@ -12,16 +12,16 @@ export default function Contact() {
           <div className="space-y-8">
             <div>
               <h3 className="text-xl font-bold text-brand-dark mb-2">E-mail</h3>
-              <p className="text-zinc-600">geral@junutricao.pt</p>
+              <p className="text-zinc-600">joanamachdonutricao@gmail.com</p>
             </div>
             <div>
               <h3 className="text-xl font-bold text-brand-dark mb-2">Localização</h3>
-              <p className="text-zinc-600">Consultório Online & Presencial (Porto/Lisboa)</p>
+              <p className="text-zinc-600">Consultas Presenciais (Felgueiras, Amarante, Braga)</p>
             </div>
             <div className="flex gap-4">
               {/* Links para Instagram/LinkedIn aqui */}
-              <span className="text-brand-medium font-bold cursor-pointer hover:underline text-sm uppercase tracking-widest">Instagram</span>
-              <span className="text-brand-medium font-bold cursor-pointer hover:underline text-sm uppercase tracking-widest">WhatsApp</span>
+              <span className="text-brand-medium font-bold cursor-pointer hover:underline text-sm uppercase tracking-widest">https://www.linkedin.com/in/joana-teixeira-machado-510b86235/</span>
+              <span className="text-brand-medium font-bold cursor-pointer hover:underline text-sm uppercase tracking-widest"></span>
             </div>
           </div>
 
