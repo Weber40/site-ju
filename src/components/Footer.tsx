@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="bg-zinc-900 text-zinc-400 py-12">
@@ -17,6 +19,9 @@ export default function Footer() {
           <p className="text-xs text-zinc-600">
             Feito com ❤️ por um Engenheiro Informático.
           </p>
+                <Link to="/login" className="text-[10px] text-zinc-800 opacity-20 hover:opacity-100 transition-all">
+  Acesso Privado
+</Link>
         </div>
       </div>
     </footer>

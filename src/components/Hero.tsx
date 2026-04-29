@@ -31,7 +31,7 @@ export default function Hero() {
         <div className="relative">
           <div className="absolute -z-10 w-72 h-72 lg:w-96 lg:h-96 bg-brand-medium/20 rounded-full blur-3xl -top-10 -right-10"></div>
           <img 
-            src="/src/components/hero.png" 
+            src="/src/components/pfpju.png" 
             alt="Foto de Perfil" 
             className="rounded-2xl shadow-2xl w-full max-w-md mx-auto object-cover border-4 border-white"
           />

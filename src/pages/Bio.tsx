@@ -10,7 +10,7 @@ export default function Bio() {
           {/* Coluna das Fotos */}
           <div className="space-y-4">
             <div className="rounded-3xl overflow-hidden shadow-lg border-8 border-white">
-              <img src="/src/components/ju.png" alt="Ju" className="w-full h-auto" />
+              <img src="/src/components/bioju.png" alt="Ju" className="w-full h-auto" />
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <div className="bg-brand-greenPastel h-32 rounded-2xl"></div> {/* Placeholder para foto 2 */}

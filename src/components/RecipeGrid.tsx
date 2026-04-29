@@ -1,23 +1,56 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Recipe } from '../types';
+import type { User } from '@supabase/supabase-js';
 import RecipeCard from './RecipeCard';
+import { supabase } from '../lib/supabase';
 
 // Mock data expandida para testar filtros
-const MOCK_RECIPES: Recipe[] = [
+/*const MOCK_RECIPES: Recipe[] = [
   { id: '1', title: 'Papas de Aveia e Maçã', category: 'Pequeno-almoço', image: 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?q=80&w=800', prepTime: '15 min', difficulty: 'Fácil' },
   { id: '2', title: 'Caril de Legumes', category: 'Almoço', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=800', prepTime: '30 min', difficulty: 'Médio' },
   { id: '3', title: 'Bolachas de Banana', category: 'Snack', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=800', prepTime: '20 min', difficulty: 'Fácil' },
   { id: '4', title: 'Sopa de Abóbora', category: 'Jantar', image: 'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?q=80&w=800', prepTime: '40 min', difficulty: 'Fácil' },
-];
+]; */
 
 const CATEGORIES = ['Todas', 'Pequeno-almoço', 'Almoço', 'Jantar', 'Snack'];
 
 export default function RecipeGrid() {
-  const [filter, setFilter] = useState('Todas');
+const [filter, setFilter] = useState('Todas');
+const [user, setUser] = useState<User | null>(null); // Estado para saber se a Ju está logada
+const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-  const filteredRecipes = filter === 'Todas' 
-    ? MOCK_RECIPES 
-    : MOCK_RECIPES.filter(r => r.category === filter);
+const filteredRecipes = filter === 'Todas'
+  ? recipes
+  : recipes.filter(r => r.category === filter);
+
+    useEffect(() => {
+    // 1. Verificar se há alguém logado
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      return setUser(user);
+    });
+    // 2. Carregar os posts
+    fetchRecipes();
+  }, []);
+
+  async function fetchRecipes() {
+    const { data } = await supabase.from('recipes').select('*').order('created_at', { ascending: false });
+    setRecipes(data || []);
+  }
+
+  // 3. Função para eliminar
+  const deleteRecipe = async (id: string) => {
+    if (window.confirm("Tens a certeza que queres apagar este post?")) {
+      const { error } = await supabase.from('recipes').delete().eq('id', id);
+      
+      if (error) {
+        alert("Erro ao eliminar: " + error.message);
+      } else {
+        // Atualiza a lista localmente para o post desaparecer logo
+        setRecipes(recipes.filter(r => r.id !== id));
+      }
+    }
+  };
+
 
   return (
     <section className="py-20 bg-white">

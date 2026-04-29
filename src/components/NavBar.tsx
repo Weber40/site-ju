@@ -17,11 +17,6 @@ export default function Navbar() {
           <Link to="/servicos" className="hover:text-brand-medium transition-colors">Serviços</Link>
           <Link to="/contactos" className="hover:text-brand-medium transition-colors">Contactos</Link>
         </div>
-
-        {/* Botão de Ação */}
-        <button className="bg-brand-dark text-white px-5 py-2 rounded-full text-sm font-serif font-bold hover:bg-brand-medium transition-all">
-          Marcar Consulta
-        </button>
       </div>
     </nav>
   );

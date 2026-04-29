@@ -5,4 +5,12 @@ export interface Recipe {
   image: string;
   prepTime: string;
   difficulty: 'Fácil' | 'Médio' | 'Pro';
-}
+};
+
+export type Post = {
+  id: string;
+  title: string;
+  description: string;
+  created_at: string;
+  // Add other fields as needed, e.g., content: string; author: string; etc.
+};

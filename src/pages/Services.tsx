@@ -1,8 +1,8 @@
 export default function Services() {
   const areas = [
-    { title: 'Nutrição Clínica', desc: 'Consultas personalizadas para perda de peso e saúde.' },
-    { title: 'Nutrição Pediátrica', desc: 'Acompanhamento para os mais pequenos.' },
-    { title: 'Formações e Workshops', desc: 'Workshops para empresas e grupos particulares.' }
+    { title: 'Nutrição Clínica', desc: 'Consultas personalizadas para adultos e materno-infatil.' },
+    { title: 'Formações', desc: 'Formações para empresas de restauração coletiva.' },
+    { title: 'Workshops', desc: 'Workshops de educação alimentar.' }
   ];
 
   return (
