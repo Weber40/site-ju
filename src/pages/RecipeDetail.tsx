@@ -55,11 +55,11 @@ export default function RecipeDetail() {
 
         {/* GALERIA DE IMAGENS MÉDIAS (Todas as imagens aparecem aqui) */}
         {recipe.image_url && recipe.image_url.length > 0 && (
-          <div className="flex flex-wrap gap-4 justify-center mb-10">
+          <div className="flex flex-wrap gap-3 justify-center mb-10">
             {recipe.image_url.map((url: string, index: number) => (
               <div 
                 key={index} 
-                className="w-40 h-40 md:w-52 md:h-52 rounded-[32px] overflow-hidden shadow-lg cursor-pointer hover:scale-[1.03] transition-all border-8 border-white"
+                className="w-35 h-35 md:w-46 md:h-46 rounded-[32px] overflow-hidden shadow-lg cursor-pointer hover:scale-[1.03] transition-all border-8 border-white"
                 onClick={() => setSelectedImage(url)}
               >
                 <img src={url} className="w-full h-full object-cover" alt={`${recipe.title} ${index + 1}`} />
@@ -73,7 +73,7 @@ export default function RecipeDetail() {
           <span className="text-brand-terracotta font-bold uppercase tracking-widest text-sm">
             {recipe.category}
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold text-brand-olive mt-2 mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-brand-olive mt-2 mb-8">
             {recipe.title}
           </h1>
 

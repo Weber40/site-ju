@@ -16,6 +16,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import RecipeDetail from './pages/RecipeDetail';
 import TopicDetail from './pages/TopicDetail';
+import ProtectedRoute from './components/ProtectedRoute';
 //import { Link, useLocation } from 'react-router-dom';
 
 // Este componente envolve todas as páginas e fornece a Navbar
@@ -73,13 +74,10 @@ function Layout() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // O Layout decide onde a Navbar aparece
+    element: <Layout />, 
     children: [
-      { 
-        path: "/admin", 
-        element: <Admin /> },
+      // --- ROTAS PÚBLICAS ---
       {
-        
         path: "/",
         element: (
           <>
@@ -89,44 +87,40 @@ const router = createBrowserRouter([
           </>
         ),
       },
-      {
-        path: "/receitas",
-        element: <RecipeGrid />,
-      },
-      {
-        path: "/servicos",
-        element: <Services />,
-      },
-      {
-        path: "/contactos",
-        element: <Contact />,
-      },
-      { path: "/biografia",
-         element: <Bio /> 
-      },
-      { path: "/hot-topics",
-         element: <HotTopics /> 
-      },
-      {
-        path: "/login",
-        element: <Login />
+      { path: "/receitas", element: <RecipeGrid /> },
+      { path: "/servicos", element: <Services /> },
+      { path: "/contactos", element: <Contact /> },
+      { path: "/biografia", element: <Bio /> },
+      { path: "/hot-topics", element: <HotTopics /> },
+      { path: "/login", element: <Login /> },
+      { path: "/receita/:id", element: <RecipeDetail /> },
+      { path: "/hot-topic/:id", element: <TopicDetail /> },
+
+      // --- ROTAS PROTEGIDAS ---
+      { 
+        path: "/admin", 
+        element: (
+          <ProtectedRoute>
+            <Admin />
+          </ProtectedRoute>
+        ) 
       },
       { 
         path: "/admin/novo-topico",
-         element: <CreateTopic /> 
-        },
+        element: (
+          <ProtectedRoute>
+            <CreateTopic />
+          </ProtectedRoute>
+        ) 
+      },
       { 
         path: "/admin/nova-receita",
-         element: <CreateRecipe /> 
-        },
-      {
-        path: "/receita/:id", // O ":" indica que o ID é variável
-        element: <RecipeDetail />,
+        element: (
+          <ProtectedRoute>
+            <CreateRecipe />
+          </ProtectedRoute>
+        ) 
       },
-    {
-      path: "/hot-topic/:id",
-      element: <TopicDetail />
-    }   
     ],
   },
 ]);

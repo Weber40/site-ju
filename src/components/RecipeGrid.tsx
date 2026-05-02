@@ -4,8 +4,9 @@ import type { Recipe } from '../types';
 import type { User } from '@supabase/supabase-js';
 import RecipeCard from './RecipeCard';
 import { supabase } from '../lib/supabase';
+import { Trash2, UtensilsCrossed } from 'lucide-react';
 
-const CATEGORIES = ['Todas', 'Pequeno-almoço', 'Almoço/Jantar', 'Snack', 'Sobremesas'];
+const CATEGORIES = ['Todas', 'Pequeno-almoço', 'Almoço/Jantar', 'Snacks', 'Sobremesas'];
 
 export default function RecipeGrid() {
   const [filter, setFilter] = useState('Todas');
@@ -40,49 +41,76 @@ export default function RecipeGrid() {
     }
   };
 
-  return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-6 text-center">
-        <h2 className="text-4xl font-serif font-bold text-zinc-800 mb-4">Receitas da Ju</h2>
-        <p className="text-zinc-500 mb-10 italic">Comida real para pessoas reais</p>
+return (
+    <section className="py-16 bg-brand-sand/30 min-h-screen relative overflow-hidden font-serif">
+      {/* Camada de Textura Orgânica */}
+      <div className="absolute inset-0 bg-grain opacity-40 pointer-events-none"></div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
+      <div className="container mx-auto px-6 relative z-10">
+        
+        {/* Cabeçalho Editorial */}
+        <div className="text-center mb-20">
+          <span className="text-brand-terracotta font-sans font-bold uppercase tracking-[0.3em] text-sm">Nutrição & Sabor</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-brand-olive mt-4 mb-6">Receitas da Ju</h2>
+          <div className="w-24 h-1.5 bg-brand-terracotta mx-auto mb-6 rounded-full opacity-80"></div>
+          <p className="text-zinc-600 text-xl italic max-w-xl mx-auto">
+            Comida real para pessoas reais. Inspira-te com opções saudáveis e práticas.
+          </p>
+        </div>
+
+        {/* Filtros Renovados */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           {CATEGORIES.map(cat => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-6 py-2 rounded-full border transition-all ${
-                filter === cat 
-                ? 'bg-brand-olive text-white border-brand-olive shadow-md' // Ajustado para brand-olive conforme regra
-                : 'bg-transparent text-zinc-500 border-zinc-200 hover:border-brand-olive'
-              }`}
+              className={`px-8 py-3 rounded-full font-sans font-bold text-xs uppercase tracking-widest transition-all duration-300
+                ${filter === cat 
+                  ? 'bg-brand-olive text-white shadow-xl scale-105 border-transparent' 
+                  : 'bg-white/50 text-brand-olive border border-brand-sage/20 hover:bg-white hover:shadow-md backdrop-blur-sm'
+                }`}
             >
               {cat}
             </button>
           ))}
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {filteredRecipes.map(recipe => (
-            <div key={recipe.id} className="relative group">
-              {/* Botão de Eliminar - Apenas se user existir */}
-              {user && (
-                <button 
-                  onClick={(e) => deleteRecipe(e, recipe.id)}
-                  className="absolute -top-3 -right-3 z-20 bg-red-500 text-white w-8 h-8 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
-                  title="Eliminar Receita"
-                >
-                  ✕
-                </button>
-              )}
+        {/* Grelha de Cartões */}
+        {filteredRecipes.length > 0 ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+            {filteredRecipes.map(recipe => (
+              <div key={recipe.id} className="relative group">
+                
+                {/* Botão de Eliminar (Apenas Admin) - Mais discreto e elegante */}
+                {user && (
+                  <button 
+                    onClick={(e) => deleteRecipe(e, recipe.id)}
+                    className="absolute top-4 right-4 z-30 bg-white/90 text-red-500 p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white"
+                    title="Eliminar Receita"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                )}
 
-              {/* Link para a página de detalhe */}
-              <Link to={`/receita/${recipe.id}`} className="block transition-transform hover:scale-[1.02]">
-                <RecipeCard recipe={recipe} />
-              </Link>
-            </div>
-          ))}
-        </div>
+                {/* Link que envolve o card com animação suave */}
+                <Link 
+                  to={`/receita/${recipe.id}`} 
+                  className="block transition-all duration-500 hover:-translate-y-2"
+                >
+                  <div className="shadow-sm group-hover:shadow-2xl rounded-[45px] transition-shadow duration-500">
+                    <RecipeCard recipe={recipe} />
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          /* Estado Vazio */
+          <div className="text-center py-24 bg-white/40 rounded-[60px] border-2 border-dashed border-brand-sage/20">
+            <UtensilsCrossed size={48} className="mx-auto text-brand-sage opacity-30 mb-6" />
+            <p className="text-zinc-500 italic text-xl">Ainda não temos receitas nesta categoria...</p>
+          </div>
+        )}
       </div>
     </section>
   );
