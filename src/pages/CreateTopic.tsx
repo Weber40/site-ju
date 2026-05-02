@@ -3,19 +3,47 @@ import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreateTopic() {
+  
     const [title, setTitle] = useState('');
+    const [imageFiles, setImageFiles] = useState<FileList | null>(null); 
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => { 
         e.preventDefault();
         setLoading(true);
 
+        //const [imageFiles, setImageFiles] = useState<FileList | null>(null);
+
+        const uploadedUrls: string[] = [];
+
+        if (imageFiles) {
+          for (let i = 0; i < imageFiles.length; i++) {
+            const file = imageFiles[i];
+            const fileName = `${Date.now()}-${Math.floor(Math.random() * 1000)}.${file.name.split('.').pop()}`;
+      
+            const { data } = await supabase.storage
+              .from('hot-topics-image_url') // Nome do teu bucket
+              .upload(fileName, file);
+
+          if (data) {
+            const { data: urlData } = supabase.storage
+              .from('hot-topics-image_url')
+            .getPublicUrl(fileName);
+          uploadedUrls.push(urlData.publicUrl);
+          }
+        }
+      }
+
         const { error } = await supabase
             .from('hot_topics')
-            .insert({ title, content, excerpt: content.substring(0, 150) + '...' });
+            .insert({ 
+              title,
+              content,
+              image_url: uploadedUrls,
+              excerpt: content.substring(0, 150) + '...' });
 
         if (error) {
             alert('Erro ao criar tópico: ' + error.message);
@@ -38,12 +66,23 @@ return (
           <div>
             <label className="block text-sm font-bold text-brand-olive mb-2 uppercase tracking-widest">Título do Post</label>
             <input 
-              className="w-full p-4 rounded-2xl bg-brand-sand/10 border-none ring-1 ring-brand-sage/30 outline-none" 
+              type="text"
+              className="w-full p-4 rounded-2xl bg-brand-sand/10 border-none ring-1 ring-brand-sage/30 outline-none mb-6"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
+
+          <div>
+            <label className="block text-sm font-bold text-brand-olive mb-2 uppercase tracking-widest">Fotografias</label>
+            <input 
+              type="file" multiple accept="image_url/*"
+              onChange={(e) => setImageFiles(e.target.files)}
+               className="w-full p-4 rounded-2xl bg-brand-sand/10 border-none ring-1 ring-brand-sage/30 outline-none mb-6"
+            />
+          </div>
+
           <div>
             <label className="block text-sm font-bold text-brand-olive mb-2 uppercase tracking-widest">Conteúdo</label>
             <textarea 

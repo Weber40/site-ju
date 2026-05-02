@@ -15,6 +15,7 @@ import CreateRecipe from './pages/CreateRecipe';
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import RecipeDetail from './pages/RecipeDetail';
+import TopicDetail from './pages/TopicDetail';
 //import { Link, useLocation } from 'react-router-dom';
 
 // Este componente envolve todas as páginas e fornece a Navbar
@@ -112,14 +113,20 @@ const router = createBrowserRouter([
       },
       { 
         path: "/admin/novo-topico",
-         element: <CreateTopic /> },
+         element: <CreateTopic /> 
+        },
       { 
         path: "/admin/nova-receita",
-         element: <CreateRecipe /> },
+         element: <CreateRecipe /> 
+        },
       {
         path: "/receita/:id", // O ":" indica que o ID é variável
         element: <RecipeDetail />,
-      },   
+      },
+    {
+      path: "/hot-topic/:id",
+      element: <TopicDetail />
+    }   
     ],
   },
 ]);
