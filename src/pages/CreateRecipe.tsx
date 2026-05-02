@@ -10,32 +10,60 @@ export default function CreateRecipe() {
   const [instructions, setInstructions] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [difficulty, setDifficulty] = useState('Fácil');
+  const [imageFiles, setImageFiles] = useState<FileList | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // No banco de dados, ingredientes é um array, vamos separar por linhas
+    const uploadedUrls: string[] = [];
+
+    if (imageFiles) {
+    for (let i = 0; i < imageFiles.length; i++) {
+      const file = imageFiles[i];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { data, error: uploadError } = await supabase.storage
+        .from('recipe-image_url')
+        .upload(filePath, file);
+
+      if (data) {
+        const { data: urlData } = supabase.storage
+          .from('recipe-image_url')
+          .getPublicUrl(filePath);
+        uploadedUrls.push(urlData.publicUrl);
+      }
+    }
+  }
+    console.log("URLs geradas para guardar:", uploadedUrls);
+
     const ingredientsArray = ingredients.split('\n').filter(i => i.trim() !== '');
 
-    const { error } = await supabase
+    const { error: dbError } = await supabase
       .from('recipes')
       .insert([{ 
         title, 
         category, 
         prep_time: prepTime, 
+        difficulty,
         ingredients: ingredientsArray, 
-        instructions 
+        instructions,
+        image_url: uploadedUrls //guarda o array de URLs das imagens no campo "images" da base de dados
       }]);
-
-    if (error) {
-      alert("Erro ao guardar receita: " + error.message);
+    
+    if (dbError) console.error("Erro na BD:", dbError.message);
+    if (dbError) {
+      alert("Erro ao guardar receita: " + dbError.message);
     } else {
       alert("Receita guardada com sucesso! 🥗");
       navigate('/receitas');
     }
     setLoading(false);
   };
+
 
   return (
     <section className="min-h-screen bg-brand-sand/20 py-20 px-6 font-serif">
@@ -56,6 +84,16 @@ export default function CreateRecipe() {
               />
             </div>
             <div>
+              <label className="block text-sm font-bold text-brand-olive mb-2 uppercase tracking-widest">Fotografias (A primeira será a capa)</label>
+              <input 
+                type="file" 
+                multiple 
+                accept="image/*"
+                onChange={(e) => setImageFiles(e.target.files)}
+                className="w-full p-4 rounded-2xl bg-brand-sand/10 border-none ring-1 ring-brand-sage/30 outline-none"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-bold text-brand-olive mb-2 uppercase tracking-widest">Categoria</label>
               <select 
                 className="w-full p-4 rounded-2xl bg-brand-sand/10 border-none ring-1 ring-brand-sage/30 outline-none appearance-none"
@@ -66,6 +104,18 @@ export default function CreateRecipe() {
                 <option>Almoço/Jantar</option>
                 <option>Snacks</option>
                 <option>Sobremesas</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-brand-olive mb-2 uppercase tracking-widest">Dificuldade</label>
+              <select 
+                className="w-full p-4 rounded-2xl bg-brand-sand/10 border-none ring-1 ring-brand-sage/30 outline-none appearance-none"
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+              >
+                <option>Fácil</option>
+                <option>Média</option>
+                <option>Difícil</option>
               </select>
             </div>
           </div>

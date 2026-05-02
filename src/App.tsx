@@ -14,6 +14,7 @@ import CreateTopic from './pages/CreateTopic';
 import CreateRecipe from './pages/CreateRecipe';
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
+import RecipeDetail from './pages/RecipeDetail';
 //import { Link, useLocation } from 'react-router-dom';
 
 // Este componente envolve todas as páginas e fornece a Navbar
@@ -49,8 +50,7 @@ function Layout() {
       </section>
       </main>
       <Footer /> {/* Adiciona aqui */}
-    </div>
-  );
+    
 
   {user && location.pathname !== '/admin' && (
   <Link 
@@ -62,7 +62,9 @@ function Layout() {
     </span>
     <span className="text-xl">⚙️</span>
   </Link>
-)}
+  )}
+  </div>
+  );
 }
 
 
@@ -114,6 +116,10 @@ const router = createBrowserRouter([
       { 
         path: "/admin/nova-receita",
          element: <CreateRecipe /> },
+      {
+        path: "/receita/:id", // O ":" indica que o ID é variável
+        element: <RecipeDetail />,
+      },   
     ],
   },
 ]);

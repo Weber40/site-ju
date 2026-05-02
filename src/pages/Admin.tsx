@@ -14,12 +14,6 @@ export default function Admin() {
       <div className="container mx-auto max-w-4xl">
         <div className="flex justify-between items-center mb-12">
             <h1 className="text-4xl font-serif font-bold text-brand-olive">Painel de Controlo</h1>
-          <button onClick={handleLogout} className="text-brand-terracotta font-bold underline">Sair</button>
-          
-          <div>
-            <h2 className="text-4xl font-serif font-bold text-brand-olive">Painel de Gestão</h2>
-            <p className="text-zinc-500">O que vamos criar hoje, Ju?</p>
-          </div>
           <button 
             onClick={handleLogout}
             className="text-sm font-sans font-bold text-brand-terracotta hover:underline"
